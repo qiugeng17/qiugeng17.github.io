@@ -414,26 +414,27 @@ Mechanical Explorer游戏简介这是一款机甲风格的冒险类跑酷游戏�
 </ul>
 <p><img src="https://gitee.com/Qin-yajietantan/mysourceforblog/raw/master/help.png"></p>
 <h2 id="场景展示"><a href="#场景展示" class="headerlink" title="场景展示"></a>场景展示</h2><p>本游戏主打机甲风格，大量运用机甲元素融入场景搭建，将场景背景设置为高科技实验室，人物与环境色彩以金属暗色系为主，带给人一种科幻未来感。</p>
-<p><img src="https://gitee.com/Qin-yajietantan/mysourceforblog/raw/master/sensema.png"></p>
+<p><img src="https://gitee.com/Qin-yajietantan/mysourceforblog/raw/master/sensema11.jpg"></p>
+<p><img src="https://gitee.com/Qin-yajietantan/mysourceforblog/raw/master/start.png"></p>
 <h2 id="my-part"><a href="#my-part" class="headerlink" title="my part"></a>my part</h2><h4 id="1、人物原型设计"><a href="#1、人物原型设计" class="headerlink" title="1、人物原型设计"></a>1、人物原型设计</h4><p>本项目为游戏关卡设计课程的课程项目，根据老师给出的“机器人”主题，于是设计了一个机甲造型的主人公形象</p>
 <h4 id="2、人物动画设计"><a href="#2、人物动画设计" class="headerlink" title="2、人物动画设计"></a>2、人物动画设计</h4><p>设计了人物的跑动、跳跃、攻击动画，并在unity中创建了人物的动画片段</p>
 <p><img src="https://gitee.com/Qin-yajietantan/mysourceforblog/raw/master/jump2.gif"></p>
 <h4 id="3、人物控制与受伤反馈"><a href="#3、人物控制与受伤反馈" class="headerlink" title="3、人物控制与受伤反馈"></a>3、人物控制与受伤反馈</h4><p>在unity中编写脚本控制人物的实现跳跃和二段跳，话不多说，看看主要代码吧</p>
-<pre><code>public void Jump()
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">public void Jump()
 &#123;
 
-    //animator.Play(&quot;robot_jump&quot;);
+    &#x2F;&#x2F;animator.Play(&quot;robot_jump&quot;);
 
     if (Input.GetKeyDown(KeyCode.Space))
     &#123;
-        if (rb.velocity.y == 0)
+        if (rb.velocity.y &#x3D;&#x3D; 0)
         &#123;
             rb.AddForce(Vector2.up * force);
 
 
         &#125;
 
-        else if (rb.velocity.y != 0 &amp;&amp; !doubleJump)
+        else if (rb.velocity.y !&#x3D; 0 &amp;&amp; !doubleJump)
             DoubleJump();
 
     &#125;
@@ -441,15 +442,14 @@ Mechanical Explorer游戏简介这是一款机甲风格的冒险类跑酷游戏�
 
 private void DoubleJump()
 &#123;
-    rb.AddForce(Vector2.up * (force / 1f));
-    //rb.AddForce(Vector2.up * force);
-    doubleJump = true;
-&#125;
-</code></pre>
+    rb.AddForce(Vector2.up * (force &#x2F; 1f));
+    &#x2F;&#x2F;rb.AddForce(Vector2.up * force);
+    doubleJump &#x3D; true;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>在人物触碰到怪物受伤时，需要给予玩家反馈，于是便设计了人物受伤时的闪烁效果。</p>
-<pre><code>public void OnTriggerEnter2D(Collider2D box)
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">public void OnTriggerEnter2D(Collider2D box)
 &#123;
-    if (box.CompareTag(&quot;Enemy&quot;))//在人物的碰撞体与怪兽的碰撞体接触之后，给玩家受伤反馈
+    if (box.CompareTag(&quot;Enemy&quot;))&#x2F;&#x2F;在人物的碰撞体与怪兽的碰撞体接触之后，给玩家受伤反馈
     &#123;
         Damage();
     &#125;
@@ -458,13 +458,12 @@ private void DoubleJump()
 
 public void Damage()
 &#123;
-    // animator.Play(&quot;Damage&quot;);
-    //Instantiate(hurtSound, transform.position, Quaternion.identity);
+    &#x2F;&#x2F; animator.Play(&quot;Damage&quot;);
+    &#x2F;&#x2F;Instantiate(hurtSound, transform.position, Quaternion.identity);
     BlinkPlayer(blinks, blinkTime);
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h4 id="4、障碍物的随机生成与地图移动"><a href="#4、障碍物的随机生成与地图移动" class="headerlink" title="4、障碍物的随机生成与地图移动"></a>4、障碍物的随机生成与地图移动</h4><p>我们的游戏是一个横版的跑酷游戏，在人物前进的过程中地图也随之移动，并且会随机掉落障碍物。但其实我们固定了摄像机！！！让人物在原地跑动，反而让地图进行移动，这就是“卧看满天云不动，不知云与我俱东”啦，于是我们并不需要制作很大的地图，只需要制作一小部分地图，让这部分地图循环运动就可以啦。同时我们的障碍物和敌人也是随机掉落的哦，不需要人为地去设置。</p>
-<pre><code>void OnTriggerEnter2D(Collider2D hitInfo)
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">void OnTriggerEnter2D(Collider2D hitInfo)
 &#123;
     if (hitInfo.gameObject.CompareTag(&quot;Enemy&quot;))
     &#123;
@@ -477,8 +476,7 @@ public void Damage()
         Destroy(gameObject);
         Instantiate(impactEffect, transform.position, Quaternion.identity);
     &#125;
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p><a target="_blank" rel="noopener" href="https://github.com/Akazamzarak-nacl/Mechanical-Explorer.git">github项目地址</a></p>
 
                 
